@@ -1,0 +1,101 @@
+#formCalculate{
+    font-family: Expletus Sans;
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow-x: initial;
+    overflow-y: initial;
+    font-family: Archivo Narrow;
+    text-align: -webkit-center;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    background-color: #78a648;
+    padding: 25px 10px;
+    border-radius: 10px;
+    border: 1px solid #8fc358;
+    padding: 25px 10px;
+}
+#formCalculate .form-elements{
+    padding-bottom: 1.5em;
+}
+#formCalculate .form-elements input{
+    padding: 0;
+    text-align: center;
+    color: #000000;
+}
+#formCalculate .form-info span,#formCalculate .kamp-element-description-below-input{
+    color: #ffffff;
+}
+#formCalculate span{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 26px;
+}
+#formCalculate .kamp-label{
+    display: block;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 0;
+    padding: .75em;
+}
+#formCalculate .kamp-required-char{
+    color: red;
+}
+#formCalculate .kamp-text-before{
+}
+
+#formCalculate .wynik{
+    font-size: 1.5em;
+    padding: .5em;
+}
+#formCalculate .kamp-element-description-below-input{
+    font-size: 1em;
+}
+#formCalculate .button-post{
+    color: #000000 !important;
+}
+#formCalculate .button-post,.popup-content input[type="submit"],.popup-content button,.popup-content .wpcf7-submit{
+    background-color: #fcfcfc !important;
+    color: inherit;
+    border: 1px solid;
+	border-radius: 3px;
+}
+.popup-calc {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    padding-top: 10px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.popup-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+}
+.popup-content input[type="submit"]{
+    padding: 10px 30px 10px 30px;
+    
+    color: #000;
+
+    background-repeat: repeat-x;
+    background-size: contain;
+    text-shadow: none;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transition: none;
+    transition: none;
+}
+.dashicons-no-alt:before{
+    color: #000;
+}

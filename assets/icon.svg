@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Background -->
+  <rect width="256" height="256" rx="40" fill="#006B95"/>
+
+  <!-- Van body (living section) -->
+  <rect x="16" y="112" width="150" height="64" rx="10" fill="white"/>
+
+  <!-- Cab (taller, attached to right of body) -->
+  <rect x="166" y="88" width="74" height="88" rx="8" fill="white"/>
+
+  <!-- Body windows -->
+  <rect x="30"  y="124" width="24" height="18" rx="4" fill="#006B95"/>
+  <rect x="63"  y="124" width="24" height="18" rx="4" fill="#006B95"/>
+  <rect x="96"  y="124" width="24" height="18" rx="4" fill="#006B95"/>
+  <rect x="129" y="124" width="20" height="18" rx="4" fill="#006B95"/>
+
+  <!-- Cab windshield -->
+  <rect x="174" y="96" width="58" height="30" rx="5" fill="#006B95" opacity="0.75"/>
+
+  <!-- Cab door -->
+  <rect x="176" y="140" width="26" height="34" rx="4" fill="none" stroke="#006B95" stroke-width="2.5"/>
+
+  <!-- Wheels -->
+  <circle cx="60"  cy="184" r="24" fill="#003d54"/>
+  <circle cx="60"  cy="184" r="10" fill="white"/>
+  <circle cx="60"  cy="184" r="4"  fill="#003d54"/>
+
+  <circle cx="196" cy="184" r="24" fill="#003d54"/>
+  <circle cx="196" cy="184" r="10" fill="white"/>
+  <circle cx="196" cy="184" r="4"  fill="#003d54"/>
+
+  <!-- Price badge -->
+  <circle cx="56" cy="56" r="42" fill="#f0a020"/>
+  <text x="56" y="70"
+        text-anchor="middle"
+        font-size="34"
+        font-weight="bold"
+        fill="white"
+        font-family="Arial,Helvetica,sans-serif">zł</text>
+</svg>
