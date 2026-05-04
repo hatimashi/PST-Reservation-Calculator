@@ -11,7 +11,7 @@
  * Plugin Name:       PST Reservation Calculator
  * Plugin URI:        https://primestep.pl/pst-reservation-calculator
  * Description:       Seasonal rental price calculator for motorhomes, trailers and cars. Embeds via shortcode, calculates prices across season boundaries and sends reservation inquiries by e-mail.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            hatimashi
  * Author URI:        https://primestep.pl
  * License:           GPL-2.0+
@@ -56,5 +56,13 @@ function run_pst_reservation_calculator() {
     $plugin = new PST_Reservation_Calculator();
     $plugin->run();
 }
+
+require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-updater.php';
+
+new PST_Updater(
+    __FILE__,
+    'https://soyokaze.pl/updates/update-info.php',
+    PST_RESERVATION_CALCULATOR_VERSION
+);
 
 run_pst_reservation_calculator();

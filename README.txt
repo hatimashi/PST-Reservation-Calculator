@@ -4,7 +4,7 @@ Tags: rental, price calculator, vehicle rental, reservation, booking
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ PHP 7.4 or higher.
 * Season date/price editor in the admin panel.
 * Configurable notification e-mail address.
 * Full input sanitization, output escaping and nonce verification on all AJAX endpoints.
+
+= 1.1.0 =
+* Plugin Update feature
 
 == Upgrade Notice ==
 
