@@ -1,0 +1,52 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'  # uruchamia się gdy pushнесz tag np. v1.2.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Build plugin zip
+        run: |
+          mkdir -p build
+          zip -r build/pst-reservation-calculator.zip . \
+            --exclude "*.git*" \
+            --exclude ".github/*" \
+            --exclude "node_modules/*" \
+            --exclude "src/*" \
+            --exclude "*.gitignore" \
+            --exclude "tailwind.config.js" \
+            --exclude "package*.json" \
+            --exclude "build/*" \
+            --exclude "CLAUDE.md"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/pst-reservation-calculator.zip
+          name: "Release v${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## Co nowego w v${{ steps.version.outputs.VERSION }}
+            <!-- opis zmian -->
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to updates server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: build/pst-reservation-calculator.zip
+          target: /public_html/updates/
