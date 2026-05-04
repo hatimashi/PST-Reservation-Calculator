@@ -56,7 +56,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 58882
           source: build/pst-reservation-calculator.zip
-          target: /public_html/updates/
+          target: public_html/updates/
       
       - name: Update version on server
         uses: appleboy/ssh-action@v1.0.0
@@ -65,4 +65,4 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            sed -i 's/"version": ".*"/"version": "${{ steps.version.outputs.VERSION }}"/' /public_html/updates/update-info.php
+            sed -i 's/"version": ".*"/"version": "${{ steps.version.outputs.VERSION }}"/' ~/public_html/updates/update-info.php
