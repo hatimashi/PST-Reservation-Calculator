@@ -61,6 +61,13 @@ jobs:
           source: build/pst-reservation-calculator.zip
           target: public_html/updates/
       
+      - name: Extract changelog
+        id: changelog
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          CHANGELOG=$(awk "/## ${VERSION}/{flag=1; next} /## /{flag=0} flag" CHANGELOG.md | tr '\n' ' ')
+          echo "CONTENT=${CHANGELOG}" >> $GITHUB_OUTPUT
+      
       - name: Update version on server
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -70,3 +77,5 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             sed -i 's/"version": ".*"/"version": "${{ steps.version.outputs.VERSION }}"/' ~/public_html/updates/update-info.php
+            sed -i 's/"last_updated": ".*"/"last_updated": "$(date +%Y-%m-%d)"/' ~/public_html/updates/update-info.php
+            sed -i "s|'changelog'.*=>.*'.*'|'changelog' => '<h4>${{ steps.version.outputs.VERSION }}<\/h4><ul><li>${{ steps.changelog.outputs.CONTENT }}<\/li><\/ul>'|" ~/public_html/updates/update-info.php
