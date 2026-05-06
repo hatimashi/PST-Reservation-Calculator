@@ -104,6 +104,10 @@ PHP 7.4 or higher.
 = 1.1.0 =
 * Plugin Update feature
 
+= 1.2.0 =
+* Form rewrited using tailwind
+* Cleanup js's and HTML
+
 == Upgrade Notice ==
 
 = 1.0.0 =
