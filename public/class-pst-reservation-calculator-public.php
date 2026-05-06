@@ -13,6 +13,7 @@ class PST_Reservation_Calculator_Public {
     private $plugin_name;
     private $version;
     private $tables;
+    private $atts_type;
 
     private static $default_fees = array(
         'kamper'    => array( 'service_pay_netto' => 300, 'service_pay_brutto' => 369, 'deposit' => 5000, 'delivery_netto' => 2, 'delivery_brutto' => 2.46 ),
@@ -28,7 +29,7 @@ class PST_Reservation_Calculator_Public {
         $this->tables = new PST_Reservation_Calculator_Tables();
     }
 
-    public static function show_calculator( $atts, $content = '' ) {
+    public static function show_calculator( $atts, $content = '' ) {        
         ob_start();
         include_once PST_RESERVATION_CALCULATOR_DIR . 'public/partials/pst-reservation-calculator-public-display.php';
         return ob_get_clean();
@@ -38,12 +39,14 @@ class PST_Reservation_Calculator_Public {
         wp_enqueue_style( $this->plugin_name,  plugin_dir_url( __FILE__ ) . 'css/pst-reservation-calculator-public.css', array(), $this->version, 'all' );
         wp_enqueue_style( 'pst-rc-jquery-ui',  plugin_dir_url( __FILE__ ) . 'css/jquery-ui.css',  array(), $this->version, 'all' );
         wp_enqueue_style( 'pst-rc-datepicker', plugin_dir_url( __FILE__ ) . 'css/datepicker.css', array(), $this->version, 'all' );
-        wp_enqueue_style( 'pst-rc-form',       plugin_dir_url( __FILE__ ) . 'css/form.css',       array(), $this->version, 'all' );
-        wp_enqueue_style( 'pst-tailwind',      plugin_dir_url( __FILE__ ) . 'css/tailwind.min.css',array(),$this->version, 'all' );
+/*         wp_enqueue_style( 'pst-rc-form',       plugin_dir_url( __FILE__ ) . 'css/form.css',       array(), $this->version, 'all' );
+ */        wp_enqueue_style( 'pst-tailwind',      plugin_dir_url( __FILE__ ) . 'css/tailwind.min.css',array(),$this->version, 'all' );
         }
 
     public function enqueue_scripts() {
-        wp_enqueue_script( 'pst-rc-public',       plugin_dir_url( __FILE__ ) . 'js/pst-reservation-calculator-public.js', array( 'jquery' ), $this->version, false );
+        wp_enqueue_script('lucide',               'https://unpkg.com/lucide@latest', array(), null,      false);
+
+        wp_enqueue_script( 'pst-rc-public',       plugin_dir_url( __FILE__ ) . 'js/pst-reservation-calculator-public.js', array( 'jquery' ), $this->version, true );
         wp_enqueue_script( 'pst-rc-validate',     plugin_dir_url( __FILE__ ) . 'js/validate.min.js',      array( 'jquery' ), $this->version, true );
         wp_enqueue_script( 'pst-rc-datepicker',   plugin_dir_url( __FILE__ ) . 'js/datepicker.js',        array( 'jquery' ), $this->version, true );
         wp_enqueue_script( 'pst-rc-datepicker-pl', plugin_dir_url( __FILE__ ) . 'js/datepicker.pl-PL.js', array( 'jquery' ), $this->version, true );
@@ -51,7 +54,8 @@ class PST_Reservation_Calculator_Public {
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'nonce'   => wp_create_nonce( 'pst_rc_public_nonce' ),
             'vat'     => (int) get_option( 'pst_reservation_calculator_vat', 23 ),
-        ) );
+            'thetitleattribute' => esc_attr(get_the_title(get_the_ID())),
+            ) );
     }
 
     public function ajax_calculate() {
@@ -172,44 +176,50 @@ class PST_Reservation_Calculator_Public {
         wp_send_json_error( 'Nieprawidłowy lub nieaktywny kod rabatowy.' );
     }
 
-    public function ajax_email() {
-        if ( ! wp_verify_nonce(
-            isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '',
+    public function ajax_email()
+    {
+        error_log('ajax_email odpalony');
+        error_log('REQUEST: ' . print_r($_REQUEST, true));
+        if (! wp_verify_nonce(
+            isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '',
             'pst_rc_public_nonce'
-        ) ) {
-            wp_send_json_error( 'Invalid nonce', 403 );
+        )) {
+            wp_send_json_error('Invalid nonce', 403);
         }
 
-        $subject       = sanitize_text_field( wp_unslash( isset( $_REQUEST['your-subject'] )     ? $_REQUEST['your-subject']     : '' ) );
-        $type_desc     = sanitize_text_field( wp_unslash( isset( $_REQUEST['type-description'] ) ? $_REQUEST['type-description'] : '' ) );
-        $name          = sanitize_text_field( wp_unslash( isset( $_REQUEST['your-name'] )        ? $_REQUEST['your-name']        : '' ) );
-        $date_od       = sanitize_text_field( wp_unslash( isset( $_REQUEST['data-od'] )          ? $_REQUEST['data-od']          : '' ) );
-        $date_do       = sanitize_text_field( wp_unslash( isset( $_REQUEST['data-do'] )          ? $_REQUEST['data-do']          : '' ) );
-        $phone         = sanitize_text_field( wp_unslash( isset( $_REQUEST['nr-tel'] )           ? $_REQUEST['nr-tel']           : '' ) );
-        $price_netto   = floatval( isset( $_REQUEST['wyniknetto'] )  ? $_REQUEST['wyniknetto']  : 0 );
-        $price_brutto  = floatval( isset( $_REQUEST['wynikbrutto'] ) ? $_REQUEST['wynikbrutto'] : 0 );
-        $message_body  = sanitize_textarea_field( wp_unslash( isset( $_REQUEST['your-message'] ) ? $_REQUEST['your-message'] : '' ) );
-        $discount_code = strtoupper( sanitize_text_field( wp_unslash( isset( $_REQUEST['discount_code'] ) ? $_REQUEST['discount_code'] : '' ) ) );
+        $name          = sanitize_text_field(wp_unslash(isset($_REQUEST['fullname'])     ? $_REQUEST['fullname']     : ''));
+        $email         = sanitize_email(wp_unslash(isset($_REQUEST['email'])             ? $_REQUEST['email']        : ''));
+        $phone         = sanitize_text_field(wp_unslash(isset($_REQUEST['phone'])        ? $_REQUEST['phone']        : ''));
+        $message_body  = sanitize_textarea_field(wp_unslash(isset($_REQUEST['extramessage']) ? $_REQUEST['extramessage'] : ''));
+        $type          = sanitize_text_field(wp_unslash(isset($_REQUEST['type'])         ? $_REQUEST['type']         : ''));
+        $date_od       = sanitize_text_field(wp_unslash(isset($_REQUEST['start_date'])   ? $_REQUEST['start_date']   : ''));
+        $date_do       = sanitize_text_field(wp_unslash(isset($_REQUEST['end_date'])     ? $_REQUEST['end_date']     : ''));
+        $price_netto   = floatval(isset($_REQUEST['wyniknetto'])  ? $_REQUEST['wyniknetto']  : 0);
+        $price_brutto  = floatval(isset($_REQUEST['wynikbrutto']) ? $_REQUEST['wynikbrutto'] : 0);
+        $discount_code = strtoupper(sanitize_text_field(wp_unslash(isset($_REQUEST['discount_code']) ? $_REQUEST['discount_code'] : '')));
 
-        $to_email = get_option( 'pst_reservation_calculator_email', get_option( 'admin_email' ) );
+        $to_email = get_option('pst_reservation_calculator_email', get_option('admin_email'));
+        $subject  = 'Rezerwacja: ' . $type . ' — ' . $name;
 
-        $message  = '<h1>' . esc_html( $subject ) . '</h1>';
-        $message .= '<p>' . esc_html( $type_desc ) . '</p>';
-        $message .= '<h2>Imię i nazwisko:</h2><p>' . esc_html( $name ) . '</p>';
-        $message .= '<h2>Okres Rezerwacji:</h2><p>od ' . esc_html( $date_od ) . ' do ' . esc_html( $date_do ) . '</p>';
-        $message .= '<h2>Telefon:</h2><p>' . esc_html( $phone ) . '</p>';
-        $message .= '<h2>Cena z kalkulatora:</h2><p>' . esc_html( $price_netto ) . ' zł netto — ' . esc_html( $price_brutto ) . ' zł brutto</p>';
+        $message  = '<h1>Nowa rezerwacja</h1>';
+        $message .= '<h2>Typ pojazdu:</h2><p>' . esc_html($type) . '</p>';
+        $message .= '<h2>Imię i nazwisko:</h2><p>' . esc_html($name) . '</p>';
+        $message .= '<h2>Email:</h2><p>' . esc_html($email) . '</p>';
+        $message .= '<h2>Telefon:</h2><p>' . esc_html($phone) . '</p>';
+        $message .= '<h2>Okres rezerwacji:</h2><p>od ' . esc_html($date_od) . ' do ' . esc_html($date_do) . '</p>';
+        $message .= '<h2>Cena z kalkulatora:</h2><p>' . esc_html($price_netto) . ' zł netto — ' . esc_html($price_brutto) . ' zł brutto</p>';
 
-        if ( ! empty( $discount_code ) ) {
-            $message .= '<h2>Zastosowany kod rabatowy:</h2><p>' . esc_html( $discount_code ) . '</p>';
+        if (! empty($discount_code)) {
+            $message .= '<h2>Kod rabatowy:</h2><p>' . esc_html($discount_code) . '</p>';
         }
 
-        $message .= '<h2>Wiadomość:</h2><p>' . nl2br( esc_html( $message_body ) ) . '</p>';
+        $message .= '<h2>Dodatkowe informacje:</h2><p>' . nl2br(esc_html($message_body)) . '</p>';
 
-        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
-        $result  = wp_mail( $to_email, $subject, $message, $headers );
-
-        wp_send_json( $result ? 1 : 0 );
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        $result  = wp_mail($to_email, $subject, $message, $headers);
+        error_log('wp_mail result: ' . ($result ? 'true' : 'false'));
+        error_log('to_email: ' . $to_email);
+        wp_send_json($result ? 1 : 0);
     }
 
     private function add_fees( array &$values, string $type ) {

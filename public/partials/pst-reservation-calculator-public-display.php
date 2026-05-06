@@ -9,198 +9,261 @@
 if (! defined('ABSPATH')) exit;
 ?>
 
-<div class="">
+<div class="w-full">
     <form id="formCalculate" action="javascript:void(0)">
-        <div class="kalkulator">
-            <div>
-                <label class="kamp-label">Wybierz termin wynajmu
-                    <span class="kamp-required-char">*</span>
+        <div class="rounded-2xl border border-gray-200 bg-white shadow-lg p-6 space-y-5">
+
+            <!-- Wybierz termin -->
+            <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-gray-600 uppercase tracking-widest">
+                    Wybierz termin wynajmu
+                    <span class="text-rose-500">*</span>
                 </label>
-            </div>
-            <div class="form-elements">
-                <input id="StartDate" readonly="readonly" name="start_date" class="hasDatepicker" required placeholder="od">
-                <input id="EndDate" readonly="readonly" name="end_date" class="hasDatepicker" required placeholder="do">
+                <div class="grid grid-cols-2 gap-3">
+                    <input id="StartDate" readonly name="start_date"
+                        class="hasDatepicker w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer"
+                        required placeholder="Data od">
+                    <input id="EndDate" readonly name="end_date"
+                        class="hasDatepicker w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer"
+                        required placeholder="Data do">
+                </div>
             </div>
 
             <!-- Kod rabatowy -->
-            <div class="form-elements" style="margin-top:8px; align-items:center; gap:6px;">
+            <div class="flex flex-wrap items-center gap-3">
                 <input id="discount_code" name="discount_code_display" type="text"
                     placeholder="Kod rabatowy (opcjonalnie)"
-                    style="text-transform:uppercase; max-width:220px;">
-                <button type="button" id="kc-apply-discount" class="button-post" style="padding:6px 14px;">
+                    class="flex-1 min-w-0 px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 uppercase">
+                <button type="button" id="kc-apply-discount"
+                    class="button-post px-5 py-3 rounded-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white text-sm font-semibold hover:opacity-90 transition whitespace-nowrap">
                     Zastosuj
                 </button>
-                <span id="kc-discount-msg" style="display:none; font-size:0.9em;"></span>
+                <span id="kc-discount-msg" class="w-full text-sm hidden"></span>
             </div>
 
-            <div class="form-info">
-                <label class="d-flex flex-row m-0">
-                    <span class="kamp-text-before">Suma:</span>
-                    <span class="wyniknetto"></span>
-                    <span class="kamp-text-currency">zł</span>
-                    <span class="kamp-text-before">netto</span>
-
-                    <span class="wynikbrutto"></span>
-                    <span class="kamp-text-currency">zł</span>
-                    <span class="kamp-text-before">brutto</span>
-                    <span id="opis"></span>
-                    <p class="desc"></p>
-                    <div class="error">
-                        <span></span>
-                    </div>
+            <!-- Suma -->
+            <div class="rounded-xl bg-indigo-50 border border-indigo-100 px-4 py-3 space-y-2">
+                <div class="flex flex-wrap items-center gap-1.5 text-sm">
+                    <span class="text-gray-500">Suma:</span>
+                    <span class="wyniknetto font-bold text-indigo-700"></span>
+                    <span class="text-gray-500">zł netto</span>
+                    <span class="text-gray-300">/</span>
+                    <span class="wynikbrutto font-bold text-indigo-700"></span>
+                    <span class="text-gray-500">zł brutto</span>
+                    <span id="opis" class="text-gray-400 text-xs"></span>
                     <input type="hidden" id="type" name="type" value="<?php echo esc_attr($atts['type']); ?>">
-                </label>
+                    <input type="hidden" name="wyniknetto" id="wyniknetto">
+                    <input type="hidden" name="wynikbrutto" id="wynikbrutto">
+                </div>
+                <p class="desc text-xs text-gray-400"></p>
+                <div class="error hidden"><span class="text-xs text-rose-500"></span></div>
+
+                <!-- Dodatkowe opłaty -->
+                <div id="additional_fees" class="text-xs text-gray-500 space-y-0.5 pt-1 border-t border-indigo-100">
+                    <p>+ opłata serwisowa:
+                        <span class="service_pay_netto font-medium text-gray-700"></span> zł netto /
+                        <span class="service_pay_brutto font-medium text-gray-700"></span> zł brutto
+                    </p>
+                    <p>+ zwrotna kaucja:
+                        <span class="deposit font-medium text-gray-700"></span> zł brutto
+                    </p>
+                    <p>+ podstawienie:
+                        <span class="delivery_netto font-medium text-gray-700"></span> zł netto/km /
+                        <span class="delivery_brutto font-medium text-gray-700"></span> zł brutto/km
+                    </p>
+                </div>
             </div>
 
-            <p class="kamp-element-description-below-input">
-                + opłata serwisowa: <span class="service_pay_netto"></span> zł netto / <span class="service_pay_brutto"></span> zł brutto<br>
-                + zwrotna kaucja: <span class="deposit"></span> zł brutto<br>
-                + podstawienie: <span class="delivery_netto"></span> zł netto/km / <span class="delivery_brutto"></span> zł brutto/km
-            </p>
+            <!-- Przycisk -->
+            <button type="submit" id="calc"
+                class="button-post w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white font-bold text-sm tracking-wide hover:opacity-90 active:scale-95 transition-all shadow-lg">
+                REZERWUJĘ !
+            </button>
 
-            <button type="submit" class="button-post my-2" id="calc">REZERWUJĘ !</button>
         </div>
     </form>
 </div>
-
-<div class="popup-calc fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display:none;">
-    <div class="popup-content bg-white rounded-3xl shadow-2xl max-w-2xl overflow-y-auto relative">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between px-8 py-5 border-b border-gray-100 sticky top-0 bg-white rounded-t-3xl z-10">
-            <h2 class="text-lg font-bold text-gray-900 tracking-tight">Formularz kontaktowy</h2>
-            <button class="close-popup w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-500">
-                <span class="dashicons dashicons-no-alt"></span>
-            </button>
+<div class="popup-calc fixed inset-0 top-6 bottom-6 bg-gradient-to-br from-slate-900 via-purple-900 to-black text-white backdrop-blur-sm z-[9999] grid place-items-center  p-6 overflow-none" style="display:none;">
+    <!-- <div class="popup-calc fixed min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-black text-white grid place-items-center p-6" style="display:none;">
+ -->
+    <div class="w-full max-w-7xl">
+        <!-- Przycisk zamknięcia -->
+        <button class="close-popup absolute top-2 right-2 w-9 h-9 rounded-full bg-black/5 hover:bg-white/20 flex items-center justify-center transition z-10">
+            <i data-lucide="x" class="w-4 h-4 text-white"></i>
+        </button>
+        <!-- Header / Intro -->
+        <div class="mb-6 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight" id="h1-title"></h1>
+            <p class="text-white/70 mt-1">Wypełnij formularz rezerwacji.</p>
         </div>
 
-        <div role="form" id="wpcf7-f322-o1" lang="pl-PL" dir="ltr" class="px-8 py-6">
-            <div class="screen-reader-response"></div>
-            <form id="contactForm" action="javascript:void(0)">
-                <div style="display:none;">
-                    <input type="hidden" name="_wpcf7" value="322">
-                    <input type="hidden" name="_wpcf7_version" value="5.0.1">
-                    <input type="hidden" name="_wpcf7_locale" value="pl_PL">
-                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f322-o1">
-                    <input type="hidden" name="_wpcf7_container_post" value="0">
-                    <input type="hidden" id="popup_discount_code" name="discount_code" value="">
+        <!-- Card -->
+        <div class="relative rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl shadow-glow overflow-hidden">
+
+            <!-- Stepper -->
+            <div class="relative px-6 pt-6 pb-4">
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="step-dot h-8 w-8 rounded-full grid place-items-center bg-white/20 border border-white/30" data-step="0">
+                            <span class="font-semibold">1</span>
+                        </div>
+                        <div class="hidden sm:block">
+                            <div class="font-semibold">Dane kontaktowe</div>
+                            <div class="text-white/60 text-xs"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="step-dot h-8 w-8 rounded-full grid place-items-center bg-white/10 border border-white/20" data-step="1">
+                            <span class="font-semibold">2</span>
+                        </div>
+                        <div class="hidden sm:block">
+                            <div class="font-semibold">Dodatkowe informacje</div>
+                            <div class="text-white/60 text-xs"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="step-dot h-8 w-8 rounded-full grid place-items-center bg-white/10 border border-white/20" data-step="2">
+                            <span class="font-semibold">3</span>
+                        </div>
+                        <div class="hidden sm:block">
+                            <div class="font-semibold">Podsumowanie</div>
+                            <div class="text-white/60 text-xs"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
-                    <!-- Typ pojazdu -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Typ pojazdu</label>
-                        <span class="wpcf7-form-control-wrap <?php echo esc_attr($atts['type']); ?>">
-                            <input type="text" name="type-description" value="<?php the_title_attribute(); ?>"
-                                id="reserved" readonly
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-400 text-sm cursor-not-allowed outline-none">
-                        </span>
-                    </div>
-
-                    <!-- Imię -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Imię lub nazwa firmy <span class="text-rose-500">*</span></label>
-                        <span class="wpcf7-form-control-wrap your-name">
-                            <input type="text" name="your-name"
-                                placeholder="Imię lub nazwa firmy" required aria-required="true"
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition">
-                        </span>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Adres email <span class="text-rose-500">*</span></label>
-                        <span class="wpcf7-form-control-wrap your-email">
-                            <input type="email" name="your-email"
-                                placeholder="Twój adres email" required aria-required="true"
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition">
-                        </span>
-                    </div>
-
-                    <!-- Telefon -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Numer telefonu <span class="text-rose-500">*</span></label>
-                        <span class="wpcf7-form-control-wrap nr-tel">
-                            <input type="tel" name="nr-tel"
-                                placeholder="Twój numer telefonu" required aria-required="true"
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition">
-                        </span>
-                    </div>
-
-                    <!-- Temat -->
-                    <div class="flex flex-col gap-1.5 sm:col-span-2">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Temat</label>
-                        <span class="wpcf7-form-control-wrap your-subject">
-                            <input type="text" name="your-subject"
-                                value="Wynajem/Rezerwacja: <?php echo esc_attr($atts['type']); ?>"
-                                placeholder="Temat"
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition">
-                        </span>
-                    </div>
-
-                    <!-- Daty -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Data od</label>
-                        <span class="wpcf7-form-control-wrap data-od">
-                            <input type="date" name="data-od"
-                                id="DateStartPop" readonly
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-400 text-sm cursor-not-allowed outline-none">
-                        </span>
-                    </div>
-
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Data do</label>
-                        <span class="wpcf7-form-control-wrap data-do">
-                            <input type="date" name="data-do"
-                                id="DateEndPop" readonly
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-400 text-sm cursor-not-allowed outline-none">
-                        </span>
-                    </div>
-
-                    <!-- Podsumowanie cen -->
-                    <div class="sm:col-span-2 bg-indigo-50 border border-indigo-100 rounded-2xl p-5 space-y-2">
-                        <p class="text-sm font-bold text-indigo-700">
-                            SUMA: <span class="wyniknetto"></span> zł netto /
-                            <span class="wynikbrutto"></span> zł brutto
-                        </p>
-                        <input type="hidden" class="wyniknetto" name="wyniknetto">
-                        <input type="hidden" class="wynikbrutto" name="wynikbrutto">
-                        <p class="text-xs text-indigo-500">+ opłata serwisowa:
-                            <span class="service_pay_netto font-semibold"></span> zł netto /
-                            <span class="service_pay_brutto font-semibold"></span> zł brutto
-                        </p>
-                        <p class="text-xs text-indigo-500">+ zwrotna kaucja:
-                            <span class="deposit font-semibold"></span> zł brutto
-                        </p>
-                        <p class="text-xs text-indigo-500">+ podstawienie:
-                            <span class="delivery_netto font-semibold"></span> zł netto/km /
-                            <span class="delivery_brutto font-semibold"></span> zł brutto/km
-                        </p>
-                    </div>
-
-                    <!-- Wiadomość -->
-                    <div class="flex flex-col gap-1.5 sm:col-span-2">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Wiadomość <span class="text-rose-500">*</span></label>
-                        <span class="wpcf7-form-control-wrap your-message">
-                            <textarea name="your-message" rows="4"
-                                placeholder="Wpisz treść wiadomości" required
-                                class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition resize-none"></textarea>
-                        </span>
-                    </div>
-
-                    <!-- Submit -->
-                    <div class="sm:col-span-2 flex items-center gap-4 pt-1">
-                        <input type="submit" value="Wyślij wiadomość"
-                            class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-bold px-8 py-3 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition-all duration-200">
-                        <span class="ajax-loader"></span>
-                    </div>
-
+                <!-- Progress line -->
+                <div class="absolute left-6 right-6 top-[72px] h-1 bg-white/10 rounded-full">
+                    <div id="progress" class="h-1 bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
+            </div>
 
-                <div class="wpcf7-response-output wpcf7-display-none mt-5 text-sm text-center rounded-xl px-4 py-3"></div>
+            <!-- Form body -->
+            <form id="msf" class="p-6 space-y-6" novalidate>
+
+                <!-- STEP 1: Account -->
+                <section class="step" data-step="0">
+                    <div class="grid gap-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1">Email</label>
+                            <div class="relative">
+                                <input id="email" name="email" type="email" autocomplete="email" required class="peer w-full rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="twoj@adres.pl" />
+                                <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/60"></i>
+                            </div>
+                            <p class="mt-1 text-xs text-red-300 hidden" data-error="email">Wpisz prawidłowy adres email.</p>
+                        </div>
+
+                        <div>
+                            <label for="fullname" class="block text-sm font-medium mb-1">Imię i nazwisko</label>
+                            <div class="relative">
+                                <input id="fullname" name="fullname" type="text" autocomplete="name" required class="peer w-full rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Twoje imię i nazwisko" />
+                                <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/60"></i>
+                            </div>
+                            <p class="mt-1 text-xs text-red-300 hidden" data-error="fullname">Wpisz prawidłowe imię i nazwisko.</p>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-1">Numer telefonu</label>
+                            <div class="relative">
+                                <input id="phone" name="phone" type="text" autocomplete="tel" required class="peer w-full rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Twój numer telefonu" />
+                                <i data-lucide="phone" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/60"></i>
+                            </div>
+                            <p class="mt-1 text-xs text-red-300 hidden" data-error="phone">Wpisz prawidłowy numer telefonu.</p>
+                        </div>
+
+
+
+                        <div class="flex items-center gap-2 text-sm">
+                            <input id="tos1" type="checkbox" class="accent-purple-500">
+                            <label for="tos1" class="text-white/80">Zaakceptuj nasz <a href="#" class="underline decoration-purple-400/70 hover:text-white">Regulamin</a>.</label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 2: Profile -->
+                <section class="step hidden" data-step="1">
+                    <div class="grid gap-4">
+                        <div>
+                            <label for="extramessage" class="block text-sm font-medium mb-1">Dodatkowe informacje</label>
+                            <div class="relative">
+                                <textarea id="extramessage" name="extramessage" rows="3" required class="w-full appearance-none rounded-xl bg-white/10 border border-white/20 text-white placeholder:white/40 px-11 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Wpisz dodatkowe informacje"></textarea>
+                            </div>
+                            <p class="mt-1 text-xs text-red-300 hidden" data-error="extramessage">Please provide additional information.</p>
+                        </div>
+                        <p class="mt-1 text-xs text-red-300 hidden" data-error="extramessage">Please select your role.</p>
+                    </div>
+
+                </section>
+
+                <!-- STEP 3: Review -->
+                <section class="step hidden" data-step="2">
+                    <div class="grid gap-4">
+                        <div class="rounded-xl border border-white/15 bg-white/5 p-4">
+                            <h3 class="font-semibold mb-2">Podsumowanie</h3>
+                            <dl class="grid grid-cols-3 gap-2 text-sm">
+                                <dt class="text-white/60">Email</dt>
+                                <dd class="col-span-2 font-medium" id="r-email">—</dd>
+
+                                <dt class="text-white/60">Imię i Nazwisko</dt>
+                                <dd class="col-span-2 font-medium" id="r-fullname">—</dd>
+
+                                <dt class="text-white/60">Phone</dt>
+                                <dd class="col-span-2 font-medium" id="r-phone">—</dd>
+
+                                <dt class="text-white/60">Dodatkowe informacje</dt>
+                                <dd class="col-span-2 font-medium" id="r-extramessage">—</dd>
+
+                                <dt class="text-white/60">Typ pojazdu</dt>
+                                <dd class="col-span-2 font-medium" id="r-type"><?php echo esc_attr($atts['type']); ?></dd>
+
+                                <dt class="text-white/60">Okres rezerwacji</dt>
+                                <dd class="col-span-2 font-medium" id="r-dates">—</dd>
+
+                                <dt class="text-white/60">Suma <small>netto/brutto</small></dt>
+                                <dd class="col-span-2 font-medium" id="r-reservation-sum">—</dd>
+
+                                <dt class="text-white/60">Dodatkowe opłaty</dt>
+                                <dd class="col-span-2 font-medium" id="r-additional-fees">—</dd>
+
+                            </dl>
+                        </div>
+
+                        <label class="flex items-start gap-3 text-sm">
+                            <input id="consent" type="checkbox" class="mt-1 accent-purple-500" required>
+                            <span>Potwierdzam, że podane powyżej dane są prawidłowe i wyrażam zgodę na przetwarzanie zgodnie z polityką prywatności.</span>
+                        </label>
+                        <p class="mt-1 text-xs text-red-300 hidden" data-error="consent">Aby kontynuować, musisz wyrazić zgodę.</p>
+                    </div>
+                </section>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-between pt-2">
+                    <button type="button" id="backBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed" disabled>Powrót</button>
+
+                    <div class="flex gap-2">
+                        <button type="button" id="nextBtn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 hover:opacity-90">
+                            Dalej
+                        </button>
+                        <button type="submit" id="submitBtn" class="hidden px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600">Submit</button>
+                    </div>
+                </div>
             </form>
+
+            <!-- Success state -->
+            <div id="success" class="hidden p-10 text-center">
+                <div class="mx-auto mb-4 h-12 w-12 rounded-full bg-emerald-500/20 grid place-items-center">
+                    <svg viewBox="0 0 24 24" class="h-6 w-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold">Wszystko gotowe!</h3>
+                <p class="text-white/70 mt-1">Twoja rezerwacja została wysłana.</p>
+            </div>
         </div>
 
+        <!-- Footer note -->
+        <p class="mt-4 text-center text-xs text-white/50"></p>
     </div>
 </div>
