@@ -51,6 +51,11 @@ This plugin does not collect, store, or transmit any personal data on its own. R
 3. Go to **PST Reservation** in the admin menu to configure seasons, fees, VAT and the notification e-mail.
 4. Add the shortcode `[pst_reservation type="kamper"]` (or `przyczepa` / `samochod`) to any page or post where you want the calculator to appear.
 
+== Source Code ==
+Full source code available at: https://github.com/hatimashi/PST-Reservation-Calculator
+Build tools: npm, Tailwind CSS v4
+Build command: npx tailwindcss -i ./src/input.css -o ./public/css/tailwind.min.css --minify
+
 == Frequently Asked Questions ==
 
 = How do I add the calculator to a page? =
