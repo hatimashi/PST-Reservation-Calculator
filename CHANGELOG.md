@@ -1,3 +1,6 @@
+## 1.2.1
+- release dla wordpress.org. Bez plików updatera.
+
 ## 1.2.0
 - Form rewrited using tailwind
 - Cleanup js's and HTML
