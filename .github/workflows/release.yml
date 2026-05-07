@@ -41,6 +41,7 @@ jobs:
             --exclude "*.gitignore" \
             --exclude "tailwind.config.js" \
             --exclude "package*.json" \
+            --exclude "assets/*" \
             --exclude "build/*" \
             --exclude "CLAUDE.md" \
             --exclude "includes/class-pst-updater.php"
