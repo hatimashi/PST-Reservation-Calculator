@@ -15,14 +15,14 @@ if (! defined('WP_UNINSTALL_PLUGIN')) {
 
 global $wpdb;
 
-$table = $wpdb->prefix . 'pst_reservation';
+$table = $wpdb->prefix . 'pstrc_reservation';
 $safe_table = esc_sql( $table );
 $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
     "DROP TABLE IF EXISTS `{$safe_table}`" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.SchemaChange
 );
 
-delete_option('pst_reservation_calculator_email');
-delete_option('pst_reservation_calculator_vat');
-delete_option('pst_reservation_calculator_fees');
-delete_option('pst_reservation_calculator_vehicle_types');
-delete_option('pst_reservation_calculator_discount_codes');
+delete_option('pstrc_reservation_calculator_email');
+delete_option('pstrc_reservation_calculator_vat');
+delete_option('pstrc_reservation_calculator_fees');
+delete_option('pstrc_reservation_calculator_vehicle_types');
+delete_option('pstrc_reservation_calculator_discount_codes');

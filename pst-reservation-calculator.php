@@ -24,45 +24,45 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-if ( ! defined( 'PST_RESERVATION_CALCULATOR_DIR' ) ) {
-    define( 'PST_RESERVATION_CALCULATOR_DIR', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'PSTRC_CALCULATOR_DIR' ) ) {
+    define( 'PSTRC_CALCULATOR_DIR', plugin_dir_path( __FILE__ ) );
 }
-if ( ! defined( 'PST_RESERVATION_CALCULATOR_URL' ) ) {
-    define( 'PST_RESERVATION_CALCULATOR_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'PSTRC_CALCULATOR_URL' ) ) {
+    define( 'PSTRC_CALCULATOR_URL', plugin_dir_url( __FILE__ ) );
 }
 
-define( 'PST_RESERVATION_CALCULATOR_VERSION', '1.0.0' );
+define( 'PSTRC_CALCULATOR_VERSION', '1.0.0' );
 
-function activate_pst_reservation_calculator() {
-    require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
+function activate_pstrc_reservation_calculator() {
+    require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
     $tables = new PST_Reservation_Calculator_Tables();
-    require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-activator.php';
+    require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-activator.php';
     $activator = new PST_Reservation_Calculator_Activator( $tables );
     $activator->activate();
 }
 
-function deactivate_pst_reservation_calculator() {
-    require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-deactivator.php';
+function deactivate_pstrc_reservation_calculator() {
+    require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-deactivator.php';
     $deactivator = new PST_Reservation_Calculator_Deactivator();
     $deactivator->deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_pst_reservation_calculator' );
-register_deactivation_hook( __FILE__, 'deactivate_pst_reservation_calculator' );
+register_activation_hook( __FILE__, 'activate_pstrc_reservation_calculator' );
+register_deactivation_hook( __FILE__, 'deactivate_pstrc_reservation_calculator' );
 
-require PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator.php';
+require PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator.php';
 
-function run_pst_reservation_calculator() {
+function run_pstrc_reservation_calculator() {
     $plugin = new PST_Reservation_Calculator();
     $plugin->run();
 }
 
-require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-updater.php';
+require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-updater.php';
 
 new PST_Updater(
     __FILE__,
     'https://soyokaze.pl/updates/update-info.php',
-    PST_RESERVATION_CALCULATOR_VERSION
+    PSTRC_CALCULATOR_VERSION
 );
 
-run_pst_reservation_calculator();
+run_pstrc_reservation_calculator();

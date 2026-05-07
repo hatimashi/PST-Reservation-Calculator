@@ -22,13 +22,13 @@ PST Reservation Calculator is a tool for vehicle rentals, letting users select d
 * **Configurable fees** — set the service fee (net + gross) and refundable deposit per vehicle type from the admin panel.
 * **Configurable VAT** — set your VAT rate once in the admin panel; the gross price is always calculated from that value.
 * **Reservation e-mail** — when a customer submits the contact form, a formatted HTML e-mail is sent to a configurable address.
-* **Simple shortcode** — embed the calculator anywhere with `[pst_reservation type="kamper"]`.
+* **Simple shortcode** — embed the calculator anywhere with `[pstrc_reservation type="kamper"]`.
 
 = Shortcode usage =
 
-`[pst_reservation type="kamper"]`
-`[pst_reservation type="przyczepa"]`
-`[pst_reservation type="samochod"]`
+`[pstrc_reservation type="kamper"]`
+`[pstrc_reservation type="przyczepa"]`
+`[pstrc_reservation type="samochod"]`
 
 Place one shortcode per page/post for each vehicle type you want to feature.
 
@@ -49,7 +49,7 @@ This plugin does not collect, store, or transmit any personal data on its own. R
 1. Upload the `pst-reservation-calculator` folder to the `/wp-content/plugins/` directory, or install the plugin through the **Plugins > Add New** screen in WordPress.
 2. Activate the plugin through the **Plugins** screen.
 3. Go to **PST Reservation** in the admin menu to configure seasons, fees, VAT and the notification e-mail.
-4. Add the shortcode `[pst_reservation type="kamper"]` (or `przyczepa` / `samochod`) to any page or post where you want the calculator to appear.
+4. Add the shortcode `[pstrc_reservation type="kamper"]` (or `przyczepa` / `samochod`) to any page or post where you want the calculator to appear.
 
 == Source Code ==
 Full source code available at: https://github.com/hatimashi/PST-Reservation-Calculator
@@ -60,7 +60,7 @@ Build command: npx tailwindcss -i ./src/input.css -o ./public/css/tailwind.min.c
 
 = How do I add the calculator to a page? =
 
-Use the shortcode `[pst_reservation type="kamper"]` in the page content or in a shortcode block. Replace `kamper` with `przyczepa` or `samochod` for other vehicle types.
+Use the shortcode `[pstrc_reservation type="kamper"]` in the page content or in a shortcode block. Replace `kamper` with `przyczepa` or `samochod` for other vehicle types.
 
 = Can I show calculators for multiple vehicle types on the same site? =
 

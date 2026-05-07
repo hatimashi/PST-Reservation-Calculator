@@ -7,11 +7,11 @@
   });
 
   jQuery(document).ready(function () {
-    var vat = parseInt(pst_rc_ajax.vat, 10) || 23;
+    var vat = parseInt(pstrc_ajax.vat, 10) || 23;
     var discount = { type: null, value: 0 };
     var lastData = {};
 
-    document.getElementById("h1-title").textContent = pst_rc_ajax.thetitleattribute || "Kalkulator rezerwacji"; 
+    document.getElementById("h1-title").textContent = pstrc_ajax.thetitleattribute || "Kalkulator rezerwacji"; 
     // ---- Oblicz cenę po rabacie ----
     function applyDiscount(netto) {
       if (!discount.type || !discount.value) {
@@ -52,12 +52,12 @@
     function postCalculate() {
       var postdata =
         jQuery("#formCalculate").serialize() +
-        "&action=pst_rc_calculate" +
+        "&action=pstrc_calculate" +
         "&param=calculate_prices" +
         "&nonce=" +
-        pst_rc_ajax.nonce;
+        pstrc_ajax.nonce;
 
-      jQuery.post(pst_rc_ajax.ajaxurl, postdata, function (response) {
+      jQuery.post(pstrc_ajax.ajaxurl, postdata, function (response) {
         var data =
           typeof response === "string" ? JSON.parse(response) : response;
         renderPrices(data);
@@ -88,10 +88,10 @@
       }
 
       jQuery.post(
-        pst_rc_ajax.ajaxurl,
+        pstrc_ajax.ajaxurl,
         {
-          action: "pst_rc_validate_discount",
-          nonce: pst_rc_ajax.nonce,
+          action: "pstrc_validate_discount",
+          nonce: pstrc_ajax.nonce,
           code: code,
         },
         function (response) {
@@ -131,12 +131,12 @@
       submitHandler: function () {
         var postdata =
           jQuery("#msf").serialize() +
-          "&action=pst_rc_email" +
+          "&action=pstrc_email" +
           "&param=send_email" +
           "&nonce=" +
-          pst_rc_ajax.nonce;
+          pstrc_ajax.nonce;
 
-        jQuery.post(pst_rc_ajax.ajaxurl, postdata, function (response) {
+        jQuery.post(pstrc_ajax.ajaxurl, postdata, function (response) {
           jQuery(".popup-calc").css("display", "none");
           jQuery("#mailInfoPopup").css("display", "block");
           var msg =
@@ -272,12 +272,12 @@ form.addEventListener("submit", (e) => {
     jQuery("#msf").serialize() +
     "&" +
     jQuery("#formCalculate").serialize() +
-    "&action=pst_rc_email" +
+    "&action=pstrc_email" +
     "&param=send_email" +
     "&nonce=" +
-    pst_rc_ajax.nonce;
+    pstrc_ajax.nonce;
 
-  jQuery.post(pst_rc_ajax.ajaxurl, postdata, function (response) {
+  jQuery.post(pstrc_ajax.ajaxurl, postdata, function (response) {
     if (response == 1) {
       jQuery("#msf").addClass("hidden");
       jQuery("#success").removeClass("hidden");

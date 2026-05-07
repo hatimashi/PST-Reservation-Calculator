@@ -20,27 +20,27 @@ class PST_Reservation_Calculator_Admin
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
 
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
+        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
         $this->tables = new PST_Reservation_Calculator_Tables();
     }
 
     public function enqueue_styles()
     {
-        wp_enqueue_style('pst-rc-admin',      plugin_dir_url(__FILE__) . 'css/pst-reservation-calculator-admin.css', array(), $this->version, 'all');
-        wp_enqueue_style('pst-rc-datatables', plugin_dir_url(__FILE__) . 'css/jquery.dataTables.min.css',            array(), $this->version, 'all');
-        wp_enqueue_style('pst-rc-bootstrap',  plugin_dir_url(__FILE__) . 'css/bootstrap.min.css',                    array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-admin',      plugin_dir_url(__FILE__) . 'css/pst-reservation-calculator-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-datatables', plugin_dir_url(__FILE__) . 'css/jquery.dataTables.min.css',            array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-bootstrap',  plugin_dir_url(__FILE__) . 'css/bootstrap.min.css',                    array(), $this->version, 'all');
     }
 
     public function enqueue_scripts()
     {
-        wp_enqueue_script('pst-rc-datatables', plugin_dir_url(__FILE__) . 'js/jquery.dataTables.min.js', array('jquery'), $this->version, false);
-        wp_enqueue_script('pst-rc-notify',     plugin_dir_url(__FILE__) . 'js/jquery.notifyBar.js',      array('jquery'), $this->version, false);
-        wp_enqueue_script('pst-rc-validate',   plugin_dir_url(__FILE__) . 'js/validate.min.js',          array('jquery'), $this->version, true);
-        wp_enqueue_script('pst-rc-bootstrap',  plugin_dir_url(__FILE__) . 'js/bootstrap.min.js',         array('jquery'), $this->version, false);
-        wp_enqueue_script('pst-rc-admin-js',   plugin_dir_url(__FILE__) . 'js/pst-reservation-calculator-admin.js', array('jquery'), $this->version, true);
-        wp_localize_script('pst-rc-admin-js', 'pst_rc_admin', array(
+        wp_enqueue_script('pstrc-datatables', plugin_dir_url(__FILE__) . 'js/jquery.dataTables.min.js', array('jquery'), $this->version, false);
+        wp_enqueue_script('pstrc-notify',     plugin_dir_url(__FILE__) . 'js/jquery.notifyBar.js',      array('jquery'), $this->version, false);
+        wp_enqueue_script('pstrc-validate',   plugin_dir_url(__FILE__) . 'js/validate.min.js',          array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-bootstrap',  plugin_dir_url(__FILE__) . 'js/bootstrap.min.js',         array('jquery'), $this->version, false);
+        wp_enqueue_script('pstrc-admin-js',   plugin_dir_url(__FILE__) . 'js/pst-reservation-calculator-admin.js', array('jquery'), $this->version, true);
+        wp_localize_script('pstrc-admin-js', 'pstrc_admin', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('pst_rc_admin_nonce'),
+            'nonce'   => wp_create_nonce('pstrc_admin_nonce'),
         ));
     }
 
@@ -50,7 +50,7 @@ class PST_Reservation_Calculator_Admin
             __('PST Reservation Calculator', 'pst-reservation-calculator'),
             __('PST Reservation', 'pst-reservation-calculator'),
             'manage_options',
-            'pst-rc-settings',
+            'pstrc-settings',
             array($this, 'render_settings_page'),
             'dashicons-products',
             55
@@ -59,14 +59,14 @@ class PST_Reservation_Calculator_Admin
 
     public function render_settings_page()
     {
-        include_once PST_RESERVATION_CALCULATOR_DIR . 'admin/partials/pst-reservation-calculator-admin-display.php';
+        include_once PSTRC_CALCULATOR_DIR . 'admin/partials/pst-reservation-calculator-admin-display.php';
     }
 
     public function handle_ajax()
     {
         if (! wp_verify_nonce(
             isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '',
-            'pst_rc_admin_nonce'
+            'pstrc_admin_nonce'
         )) {
             wp_die('', '', 403);
         }
@@ -172,7 +172,7 @@ class PST_Reservation_Calculator_Admin
                 }
 
                 $vehicle_types[$slug] = $label;
-                update_option('pst_reservation_calculator_vehicle_types', $vehicle_types);
+                update_option('pstrc_reservation_calculator_vehicle_types', $vehicle_types);
 
                 // Skopiuj sezony z kampera jako wzorzec dla nowego typu
                 $cache_key = 'pst_template_seasons_kamper';
@@ -218,15 +218,15 @@ class PST_Reservation_Calculator_Admin
                 }
 
                 unset($vehicle_types[$slug]);
-                update_option('pst_reservation_calculator_vehicle_types', $vehicle_types);
+                update_option('pstrc_reservation_calculator_vehicle_types', $vehicle_types);
 
                 // Usuń sezony i opłaty tego typu
                 $wpdb->delete(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
                     $table, array('type' => $slug), array('%s')
                     );
-                $fees = get_option('pst_reservation_calculator_fees', array());
+                $fees = get_option('pstrc_reservation_calculator_fees', array());
                 unset($fees[$slug]);
-                update_option('pst_reservation_calculator_fees', $fees);
+                update_option('pstrc_reservation_calculator_fees', $fees);
 
                 wp_send_json_success();
                 break;
@@ -235,7 +235,7 @@ class PST_Reservation_Calculator_Admin
 
             case 'save_settings':
                 $vat = isset($_REQUEST['vat']) ? max(0, min(100, absint($_REQUEST['vat']))) : 23;
-                update_option('pst_reservation_calculator_vat', $vat);
+                update_option('pstrc_reservation_calculator_vat', $vat);
 
                 $raw_fees      = isset($_REQUEST['fees']) ? $_REQUEST['fees'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
                 $vehicle_types = PST_Reservation_Calculator_Tables::get_vehicle_types();
@@ -255,7 +255,7 @@ class PST_Reservation_Calculator_Admin
                         }
                     }
                     if (! empty($clean)) {
-                        update_option('pst_reservation_calculator_fees', $clean);
+                        update_option('pstrc_reservation_calculator_fees', $clean);
                     }
                 }
                 wp_send_json_success();
@@ -272,7 +272,7 @@ class PST_Reservation_Calculator_Admin
                     wp_send_json_error('Nieprawidłowe dane kodu rabatowego.', 400);
                 }
 
-                $codes = get_option('pst_reservation_calculator_discount_codes', array());
+                $codes = get_option('pstrc_reservation_calculator_discount_codes', array());
                 foreach ($codes as $dc) {
                     if ($dc['code'] === $code) {
                         wp_send_json_error('Kod o tej nazwie już istnieje.', 400);
@@ -285,23 +285,23 @@ class PST_Reservation_Calculator_Admin
                     'value'  => $value,
                     'active' => 1,
                 );
-                update_option('pst_reservation_calculator_discount_codes', $codes);
+                update_option('pstrc_reservation_calculator_discount_codes', $codes);
                 wp_send_json_success();
                 break;
 
             case 'delete_discount_code':
                 $code  = strtoupper(sanitize_text_field(wp_unslash(isset($_REQUEST['code']) ? $_REQUEST['code'] : '')));
-                $codes = get_option('pst_reservation_calculator_discount_codes', array());
+                $codes = get_option('pstrc_reservation_calculator_discount_codes', array());
                 $codes = array_values(array_filter($codes, function ($dc) use ($code) {
                     return $dc['code'] !== $code;
                 }));
-                update_option('pst_reservation_calculator_discount_codes', $codes);
+                update_option('pstrc_reservation_calculator_discount_codes', $codes);
                 wp_send_json_success();
                 break;
 
             case 'toggle_discount_code':
                 $code      = strtoupper(sanitize_text_field(wp_unslash(isset($_REQUEST['code']) ? $_REQUEST['code'] : '')));
-                $codes     = get_option('pst_reservation_calculator_discount_codes', array());
+                $codes     = get_option('pstrc_reservation_calculator_discount_codes', array());
                 $new_state = 0;
                 foreach ($codes as &$dc) {
                     if ($dc['code'] === $code) {
@@ -311,7 +311,7 @@ class PST_Reservation_Calculator_Admin
                     }
                 }
                 unset($dc);
-                update_option('pst_reservation_calculator_discount_codes', $codes);
+                update_option('pstrc_reservation_calculator_discount_codes', $codes);
                 wp_send_json_success(array('active' => $new_state));
                 break;
 
@@ -320,7 +320,7 @@ class PST_Reservation_Calculator_Admin
             case 'save_contact':
                 $email = isset($_REQUEST['kc_email']) ? sanitize_email(wp_unslash($_REQUEST['kc_email'])) : '';
                 if (! empty($email)) {
-                    update_option('pst_reservation_calculator_email', $email);
+                    update_option('pstrc_reservation_calculator_email', $email);
                 }
                 wp_send_json_success();
                 break;

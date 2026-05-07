@@ -59,22 +59,22 @@ class PST_Reservation_Calculator_Activator
 
     private function init_options()
     {
-        if (false === get_option('pst_reservation_calculator_vehicle_types')) {
-            add_option('pst_reservation_calculator_vehicle_types', array(
+        if (false === get_option('pstrc_reservation_calculator_vehicle_types')) {
+            add_option('pstrc_reservation_calculator_vehicle_types', array(
                 'kamper'    => 'Kamper',
                 'przyczepa' => 'Przyczepa',
                 'samochod'  => 'Samochód',
             ));
         }
-        if (false === get_option('pst_reservation_calculator_fees')) {
-            add_option('pst_reservation_calculator_fees', array(
+        if (false === get_option('pstrc_reservation_calculator_fees')) {
+            add_option('pstrc_reservation_calculator_fees', array(
                 'kamper'    => array('service_pay_netto' => 300, 'service_pay_brutto' => 369, 'deposit' => 5000, 'delivery_netto' => 2, 'delivery_brutto' => 2.46),
                 'przyczepa' => array('service_pay_netto' => 300, 'service_pay_brutto' => 369, 'deposit' => 2000, 'delivery_netto' => 2, 'delivery_brutto' => 2.46),
                 'samochod'  => array('service_pay_netto' => 300, 'service_pay_brutto' => 369, 'deposit' => 1500, 'delivery_netto' => 2, 'delivery_brutto' => 2.46),
             ));
         }
-        if (false === get_option('pst_reservation_calculator_discount_codes')) {
-            add_option('pst_reservation_calculator_discount_codes', array());
+        if (false === get_option('pstrc_reservation_calculator_discount_codes')) {
+            add_option('pstrc_reservation_calculator_discount_codes', array());
         }
     }
 

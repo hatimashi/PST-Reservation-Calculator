@@ -10,7 +10,7 @@ class PST_Reservation_Calculator_Tables {
 
     public function get_table_name() {
         global $wpdb;
-        return $wpdb->prefix . 'pst_reservation';
+        return $wpdb->prefix . 'pstrc_reservation';
     }
 
     public static function get_vehicle_types() {
@@ -19,7 +19,7 @@ class PST_Reservation_Calculator_Tables {
             'przyczepa' => 'Przyczepa',
             'samochod'  => 'Samochód',
         );
-        $saved = get_option( 'pst_reservation_calculator_vehicle_types', null );
+        $saved = get_option( 'pstrc_reservation_calculator_vehicle_types', null );
         return ( is_array( $saved ) && ! empty( $saved ) ) ? $saved : $default;
     }
 

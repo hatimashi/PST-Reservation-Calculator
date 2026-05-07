@@ -17,8 +17,8 @@ class PST_Reservation_Calculator {
     protected $version;
 
     public function __construct() {
-        $this->version     = defined( 'PST_RESERVATION_CALCULATOR_VERSION' )
-            ? PST_RESERVATION_CALCULATOR_VERSION
+        $this->version     = defined( 'PSTRC_CALCULATOR_VERSION' )
+            ? PSTRC_CALCULATOR_VERSION
             : '1.0.0';
         $this->plugin_name = 'pst-reservation-calculator';
 
@@ -29,9 +29,9 @@ class PST_Reservation_Calculator {
     }
 
     private function load_dependencies() {
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-loader.php';
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'admin/class-pst-reservation-calculator-admin.php';
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'public/class-pst-reservation-calculator-public.php';
+        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-loader.php';
+        require_once PSTRC_CALCULATOR_DIR . 'admin/class-pst-reservation-calculator-admin.php';
+        require_once PSTRC_CALCULATOR_DIR . 'public/class-pst-reservation-calculator-public.php';
 
         $this->loader = new PST_Reservation_Calculator_Loader();
     }
@@ -47,7 +47,7 @@ class PST_Reservation_Calculator {
         $this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_scripts' );
         $this->loader->add_action( 'admin_menu',            $admin, 'register_menu' );
-        $this->loader->add_action( 'wp_ajax_pst_rc_admin',  $admin, 'handle_ajax' );
+        $this->loader->add_action( 'wp_ajax_pstrc_admin',  $admin, 'handle_ajax' );
     }
 
     private function define_public_hooks() {
@@ -55,12 +55,12 @@ class PST_Reservation_Calculator {
 
         $this->loader->add_action( 'wp_enqueue_scripts',              $public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts',              $public, 'enqueue_scripts' );
-        $this->loader->add_action( 'wp_ajax_nopriv_pst_rc_calculate',          $public, 'ajax_calculate' );
-        $this->loader->add_action( 'wp_ajax_pst_rc_calculate',                $public, 'ajax_calculate' );
-        $this->loader->add_action( 'wp_ajax_nopriv_pst_rc_email',             $public, 'ajax_email' );
-        $this->loader->add_action( 'wp_ajax_pst_rc_email',                    $public, 'ajax_email' );
-        $this->loader->add_action( 'wp_ajax_nopriv_pst_rc_validate_discount', $public, 'ajax_validate_discount' );
-        $this->loader->add_action( 'wp_ajax_pst_rc_validate_discount',        $public, 'ajax_validate_discount' );
+        $this->loader->add_action( 'wp_ajax_nopriv_pstrc_calculate',          $public, 'ajax_calculate' );
+        $this->loader->add_action( 'wp_ajax_pstrc_calculate',                $public, 'ajax_calculate' );
+        $this->loader->add_action( 'wp_ajax_nopriv_pstrc_email',             $public, 'ajax_email' );
+        $this->loader->add_action( 'wp_ajax_pstrc_email',                    $public, 'ajax_email' );
+        $this->loader->add_action( 'wp_ajax_nopriv_pstrc_validate_discount', $public, 'ajax_validate_discount' );
+        $this->loader->add_action( 'wp_ajax_pstrc_validate_discount',        $public, 'ajax_validate_discount' );
     }
 
     public function run() {

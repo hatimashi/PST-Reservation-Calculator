@@ -27,36 +27,36 @@ class PST_Reservation_Calculator_Public
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
 
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
+        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
         $this->tables = new PST_Reservation_Calculator_Tables();
     }
 
     public static function show_calculator($atts, $content = '')
     {
         ob_start();
-        include_once PST_RESERVATION_CALCULATOR_DIR . 'public/partials/pst-reservation-calculator-public-display.php';
+        include_once PSTRC_CALCULATOR_DIR . 'public/partials/pst-reservation-calculator-public-display.php';
         return ob_get_clean();
     }
 
     public function enqueue_styles()
     {
         wp_enqueue_style($this->plugin_name,  plugin_dir_url(__FILE__) . 'css/pst-reservation-calculator-public.css', array(), $this->version, 'all');
-        wp_enqueue_style('pst-rc-jquery-ui',  plugin_dir_url(__FILE__) . 'css/jquery-ui.css',  array(), $this->version, 'all');
-        wp_enqueue_style('pst-rc-datepicker', plugin_dir_url(__FILE__) . 'css/datepicker.css', array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-jquery-ui',  plugin_dir_url(__FILE__) . 'css/jquery-ui.css',  array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-datepicker', plugin_dir_url(__FILE__) . 'css/datepicker.css', array(), $this->version, 'all');
         wp_enqueue_style('pst-tailwind',      plugin_dir_url(__FILE__) . 'css/tailwind.min.css', array(), $this->version, 'all');
     }
 
     public function enqueue_scripts()
     {
-        wp_enqueue_script('pst-rc-lucide', plugin_dir_url(__FILE__) . 'js/lucide.min.js', array('jquery'), $this->version, true);
-        wp_enqueue_script('pst-rc-public',       plugin_dir_url(__FILE__) . 'js/pst-reservation-calculator-public.js', array('jquery'), $this->version, true);
-        wp_enqueue_script('pst-rc-validate',     plugin_dir_url(__FILE__) . 'js/validate.min.js',      array('jquery'), $this->version, true);
-        wp_enqueue_script('pst-rc-datepicker',   plugin_dir_url(__FILE__) . 'js/datepicker.js',        array('jquery'), $this->version, true);
-        wp_enqueue_script('pst-rc-datepicker-pl', plugin_dir_url(__FILE__) . 'js/datepicker.pl-PL.js', array('jquery'), $this->version, true);
-        wp_localize_script('pst-rc-public', 'pst_rc_ajax', array(
+        wp_enqueue_script('pstrc-lucide', plugin_dir_url(__FILE__) . 'js/lucide.min.js', array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-public',       plugin_dir_url(__FILE__) . 'js/pst-reservation-calculator-public.js', array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-validate',     plugin_dir_url(__FILE__) . 'js/validate.min.js',      array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-datepicker',   plugin_dir_url(__FILE__) . 'js/datepicker.js',        array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-datepicker-pl', plugin_dir_url(__FILE__) . 'js/datepicker.pl-PL.js', array('jquery'), $this->version, true);
+        wp_localize_script('pstrc-public', 'pstrc_ajax', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('pst_rc_public_nonce'),
-            'vat'     => (int) get_option('pst_reservation_calculator_vat', 23),
+            'nonce'   => wp_create_nonce('pstrc_public_nonce'),
+            'vat'     => (int) get_option('pstrc_reservation_calculator_vat', 23),
             'thetitleattribute' => esc_attr(get_the_title(get_the_ID())),
         ));
     }
@@ -65,7 +65,7 @@ class PST_Reservation_Calculator_Public
     {
         if (! wp_verify_nonce(
             isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '',
-            'pst_rc_public_nonce'
+            'pstrc_public_nonce'
         )) {
             wp_send_json_error('Invalid nonce', 403);
         }
@@ -161,13 +161,13 @@ class PST_Reservation_Calculator_Public
     {
         if (! wp_verify_nonce(
             isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '',
-            'pst_rc_public_nonce'
+            'pstrc_public_nonce'
         )) {
             wp_send_json_error('Invalid nonce', 403);
         }
 
         $code  = strtoupper(sanitize_text_field(wp_unslash(isset($_REQUEST['code']) ? $_REQUEST['code'] : '')));
-        $codes = get_option('pst_reservation_calculator_discount_codes', array());
+        $codes = get_option('pstrc_reservation_calculator_discount_codes', array());
 
         foreach ($codes as $dc) {
             if (strtoupper($dc['code']) === $code && ! empty($dc['active'])) {
@@ -186,7 +186,7 @@ class PST_Reservation_Calculator_Public
     {
         if (! wp_verify_nonce(
             isset($_REQUEST['nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['nonce'])) : '',
-            'pst_rc_public_nonce'
+            'pstrc_public_nonce'
         )) {
             wp_send_json_error('Invalid nonce', 403);
         }
@@ -202,7 +202,7 @@ class PST_Reservation_Calculator_Public
         $price_brutto  = floatval(isset($_REQUEST['wynikbrutto']) ? $_REQUEST['wynikbrutto'] : 0);
         $discount_code = strtoupper(sanitize_text_field(wp_unslash(isset($_REQUEST['discount_code']) ? $_REQUEST['discount_code'] : '')));
 
-        $to_email = get_option('pst_reservation_calculator_email', get_option('admin_email'));
+        $to_email = get_option('pstrc_reservation_calculator_email', get_option('admin_email'));
         $subject  = 'Rezerwacja: ' . $type . ' — ' . $name;
 
         $message  = '<h1>Nowa rezerwacja</h1>';
@@ -226,7 +226,7 @@ class PST_Reservation_Calculator_Public
 
     private function add_fees(array &$values, string $type)
     {
-        $all_fees = get_option('pst_reservation_calculator_fees', array());
+        $all_fees = get_option('pstrc_reservation_calculator_fees', array());
         $f        = isset($all_fees[$type])
             ? $all_fees[$type]
             : (self::$default_fees[$type] ?? array());
@@ -239,4 +239,4 @@ class PST_Reservation_Calculator_Public
     }
 }
 
-add_shortcode('pst_reservation', array('PST_Reservation_Calculator_Public', 'show_calculator'));
+add_shortcode('pstrc_reservation', array('PST_Reservation_Calculator_Public', 'show_calculator'));

@@ -43,11 +43,11 @@
             $form.on( 'submit', function( e ) {
                 e.preventDefault();
                 var postdata = $form.serialize()
-                    + '&action=pst_rc_admin'
+                    + '&action=pstrc_admin'
                     + '&param=save_seasons'
-                    + '&nonce=' + pst_rc_admin.nonce;
+                    + '&nonce=' + pstrc_admin.nonce;
 
-                $.post( pst_rc_admin.ajaxurl, postdata, function( response ) {
+                $.post( pstrc_admin.ajaxurl, postdata, function( response ) {
                     if ( response && response.success ) {
                         showMsg( $msg, 'Zapisano.', true );
                         // Odśwież stronę, by nowe wiersze otrzymały prawdziwe ID
@@ -70,10 +70,10 @@
                 return;
             }
 
-            $.post( pst_rc_admin.ajaxurl, {
-                action : 'pst_rc_admin',
+            $.post( pstrc_admin.ajaxurl, {
+                action : 'pstrc_admin',
                 param  : 'delete_season',
-                nonce  : pst_rc_admin.nonce,
+                nonce  : pstrc_admin.nonce,
                 id     : id,
             }, function( response ) {
                 if ( response && response.success ) {
@@ -96,11 +96,11 @@
             $slug.val( $slug.val().toLowerCase().replace( /[^a-z0-9_-]/g, '' ) );
 
             var postdata = $( this ).serialize()
-                + '&action=pst_rc_admin'
+                + '&action=pstrc_admin'
                 + '&param=add_vehicle_type'
-                + '&nonce=' + pst_rc_admin.nonce;
+                + '&nonce=' + pstrc_admin.nonce;
 
-            $.post( pst_rc_admin.ajaxurl, postdata, function( response ) {
+            $.post( pstrc_admin.ajaxurl, postdata, function( response ) {
                 if ( response && response.success ) {
                     showMsg( $msg, 'Pojazd dodany. Strona zostanie odświeżona…', true );
                     setTimeout( function() { location.reload(); }, 1200 );
@@ -121,10 +121,10 @@
                 return;
             }
 
-            $.post( pst_rc_admin.ajaxurl, {
-                action : 'pst_rc_admin',
+            $.post( pstrc_admin.ajaxurl, {
+                action : 'pstrc_admin',
                 param  : 'delete_vehicle_type',
-                nonce  : pst_rc_admin.nonce,
+                nonce  : pstrc_admin.nonce,
                 slug   : slug,
             }, function( response ) {
                 if ( response && response.success ) {
@@ -142,11 +142,11 @@
             e.preventDefault();
             var $msg     = $( '#kc-settings-msg' );
             var postdata = $( this ).serialize()
-                + '&action=pst_rc_admin'
+                + '&action=pstrc_admin'
                 + '&param=save_settings'
-                + '&nonce=' + pst_rc_admin.nonce;
+                + '&nonce=' + pstrc_admin.nonce;
 
-            $.post( pst_rc_admin.ajaxurl, postdata, function( response ) {
+            $.post( pstrc_admin.ajaxurl, postdata, function( response ) {
                 showMsg( $msg, ( response && response.success ) ? 'Ustawienia zapisane.' : 'Błąd zapisu.', response && response.success );
             } ).fail(function() {
                 showMsg( $msg, 'Błąd połączenia.', false );
@@ -170,11 +170,11 @@
             $code.val( $code.val().toUpperCase().trim() );
 
             var postdata = $( this ).serialize()
-                + '&action=pst_rc_admin'
+                + '&action=pstrc_admin'
                 + '&param=add_discount_code'
-                + '&nonce=' + pst_rc_admin.nonce;
+                + '&nonce=' + pstrc_admin.nonce;
 
-            $.post( pst_rc_admin.ajaxurl, postdata, function( response ) {
+            $.post( pstrc_admin.ajaxurl, postdata, function( response ) {
                 if ( response && response.success ) {
                     showMsg( $msg, 'Kod dodany.', true );
                     setTimeout( function() { location.reload(); }, 1000 );
@@ -195,10 +195,10 @@
                 return;
             }
 
-            $.post( pst_rc_admin.ajaxurl, {
-                action : 'pst_rc_admin',
+            $.post( pstrc_admin.ajaxurl, {
+                action : 'pstrc_admin',
                 param  : 'delete_discount_code',
-                nonce  : pst_rc_admin.nonce,
+                nonce  : pstrc_admin.nonce,
                 code   : code,
             }, function( response ) {
                 if ( response && response.success ) {
@@ -215,10 +215,10 @@
             var $btn = $( this );
             var $tr  = $( this ).closest( 'tr' );
 
-            $.post( pst_rc_admin.ajaxurl, {
-                action : 'pst_rc_admin',
+            $.post( pstrc_admin.ajaxurl, {
+                action : 'pstrc_admin',
                 param  : 'toggle_discount_code',
-                nonce  : pst_rc_admin.nonce,
+                nonce  : pstrc_admin.nonce,
                 code   : code,
             }, function( response ) {
                 if ( response && response.success ) {
@@ -240,11 +240,11 @@
             e.preventDefault();
             var $msg     = $( '#kc-contact-msg' );
             var postdata = $( this ).serialize()
-                + '&action=pst_rc_admin'
+                + '&action=pstrc_admin'
                 + '&param=save_contact'
-                + '&nonce=' + pst_rc_admin.nonce;
+                + '&nonce=' + pstrc_admin.nonce;
 
-            $.post( pst_rc_admin.ajaxurl, postdata, function( response ) {
+            $.post( pstrc_admin.ajaxurl, postdata, function( response ) {
                 showMsg( $msg, ( response && response.success ) ? 'E-mail zapisany.' : 'Błąd zapisu.', response && response.success );
             } ).fail(function() {
                 showMsg( $msg, 'Błąd połączenia.', false );

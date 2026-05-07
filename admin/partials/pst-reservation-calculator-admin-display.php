@@ -32,10 +32,10 @@ foreach (array_keys($vehicle_types) as $vtype) {
     }
 }
 
-$email          = get_option('pst_reservation_calculator_email', '');
-$vat            = (int) get_option('pst_reservation_calculator_vat', 23);
-$fees           = get_option('pst_reservation_calculator_fees', array());
-$discount_codes = get_option('pst_reservation_calculator_discount_codes', array());
+$email          = get_option('pstrc_reservation_calculator_email', '');
+$vat            = (int) get_option('pstrc_reservation_calculator_vat', 23);
+$fees           = get_option('pstrc_reservation_calculator_fees', array());
+$discount_codes = get_option('pstrc_reservation_calculator_discount_codes', array());
 
 $fee_defaults = array(
     'service_pay_netto'  => 0,
