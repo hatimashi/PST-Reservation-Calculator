@@ -1,4 +1,4 @@
-=== PST Reservation Calculator ===
+=== Primestep Vehicle Reservation Calculator ===
 Contributors: hatimashi
 Tags: rental, price calculator, vehicle rental, reservation, booking
 Requires at least: 5.5

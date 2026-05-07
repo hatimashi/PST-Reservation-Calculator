@@ -1,14 +1,14 @@
 <?php
 
 /**
- * PST Reservation Calculator — plugin bootstrap file.
+ * Primestep Vehicle Reservation Calculator — plugin bootstrap file.
  *
  * @link              https://primestep.pl/pst-reservation-calculator
  * @since             1.0.0
  * @package           PST_Reservation_Calculator
  *
  * @wordpress-plugin
- * Plugin Name:       PST Reservation Calculator
+ * Plugin Name:       Primestep Vehicle Reservation Calculator
  * Plugin URI:        https://primestep.pl/pst-reservation-calculator
  * Description:       Seasonal rental price calculator for motorhomes, trailers and cars. Embeds via shortcode, calculates prices across season boundaries and sends reservation inquiries by e-mail.
  * Version:           1.2.1
@@ -16,7 +16,7 @@
  * Author URI:        https://primestep.pl
  * License:           GPL-2.0+
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       pst-reservation-calculator
+ * Text Domain:       primestep-vehicle-reservation-calculator
  * Domain Path:       /languages
  */
 
