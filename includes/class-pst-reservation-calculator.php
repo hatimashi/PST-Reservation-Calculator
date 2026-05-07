@@ -30,7 +30,6 @@ class PST_Reservation_Calculator {
 
     private function load_dependencies() {
         require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-loader.php';
-        require_once PST_RESERVATION_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-i18n.php';
         require_once PST_RESERVATION_CALCULATOR_DIR . 'admin/class-pst-reservation-calculator-admin.php';
         require_once PST_RESERVATION_CALCULATOR_DIR . 'public/class-pst-reservation-calculator-public.php';
 
