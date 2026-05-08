@@ -1,3 +1,8 @@
+## 1.2.2
+- no CDN files
+- changed prefix
+- changed shortcode usage to: [pstrc_reservation type="*kamper*"]
+  
 ## 1.2.1
 - release dla wordpress.org. Bez plików updatera.
 
