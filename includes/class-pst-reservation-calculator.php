@@ -23,7 +23,6 @@ class PST_Reservation_Calculator {
         $this->plugin_name = 'pst-reservation-calculator';
 
         $this->load_dependencies();
-        $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
     }
@@ -34,11 +33,6 @@ class PST_Reservation_Calculator {
         require_once PSTRC_CALCULATOR_DIR . 'public/class-pst-reservation-calculator-public.php';
 
         $this->loader = new PST_Reservation_Calculator_Loader();
-    }
-
-    private function set_locale() {
-        $i18n = new PST_Reservation_Calculator_i18n();
-        $this->loader->add_action( 'plugins_loaded', $i18n, 'load_plugin_textdomain' );
     }
 
     private function define_admin_hooks() {
