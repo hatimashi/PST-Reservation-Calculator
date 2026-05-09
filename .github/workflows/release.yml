@@ -33,9 +33,9 @@ jobs:
       - name: Build WP.org zip
         run: |
           mkdir -p build/wporg-tmp
-          cp -r . build/wporg-tmp/
           
-          # usuń require i wywołanie updatera z głównego pliku
+          rsync -a --exclude='build' --exclude='.git' --exclude='node_modules' . build/wporg-tmp/
+          
           sed -i "/class-pstrc-updater/d" build/wporg-tmp/pstrc-reservation-calculator.php
           sed -i "/new PSTRC_Updater/,/);/d" build/wporg-tmp/pstrc-reservation-calculator.php
           
