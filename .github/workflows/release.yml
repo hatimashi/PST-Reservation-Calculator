@@ -35,9 +35,13 @@ jobs:
           mkdir -p build/wporg-tmp
           
           rsync -a --exclude='build' --exclude='.git' --exclude='node_modules' . build/wporg-tmp/
+          echo "=== PRZED ==="
+          grep -n "PSTRC_Updater\|class-pstrc-updater" build/wporg-tmp/pstrc-reservation-calculator.php
           
           sed -i "/class-pstrc-updater/d" build/wporg-tmp/pstrc-reservation-calculator.php
           sed -i "/new PSTRC_Updater/,/);/d" build/wporg-tmp/pstrc-reservation-calculator.php
+                    echo "=== PO ==="
+          grep -n "PSTRC_Updater\|class-pstrc-updater" build/wporg-tmp/pstrc-reservation-calculator.php || echo "Brak - usunieto poprawnie"
           
           mkdir -p build
           zip -r build/pstrc_reservation-wporg.zip . \
