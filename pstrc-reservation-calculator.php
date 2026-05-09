@@ -11,7 +11,7 @@
  * Plugin Name:       Primestep Vehicle Reservation Calculator
  * Plugin URI:        https://primestep.pl/pstrc_reservation
  * Description:       Seasonal rental price calculator for motorhomes, trailers and cars. Embeds via shortcode, calculates prices across season boundaries and sends reservation inquiries by e-mail.
- * Version:           1.2.2
+ * Version:           1.2.3
  * Author:            hatimashi
  * Author URI:        https://primestep.pl
  * License:           GPL-2.0+

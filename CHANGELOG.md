@@ -1,3 +1,6 @@
+## 1.2.3
+- corecct prefixex in whole project from pst to pstrc(wordpress.org doc)
+
 ## 1.2.2
 - no CDN files
 - changed prefix
