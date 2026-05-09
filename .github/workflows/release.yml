@@ -42,9 +42,9 @@ jobs:
           sed -i "/new PSTRC_Updater/,/);/d" build/wporg-tmp/pstrc-reservation-calculator.php
                     echo "=== PO ==="
           grep -n "PSTRC_Updater\|class-pstrc-updater" build/wporg-tmp/pstrc-reservation-calculator.php || echo "Brak - usunieto poprawnie"
-          
-          mkdir -p build
-          zip -r build/pstrc_reservation-wporg.zip . \
+
+          cd build/wporg-tmp
+          zip -r ../pstrc_reservation-wporg.zip . \
             --exclude "*.git*" \
             --exclude ".github/*" \
             --exclude "node_modules/*" \
