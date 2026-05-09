@@ -46,7 +46,7 @@ This plugin does not collect, store, or transmit any personal data on its own. R
 
 == Installation ==
 
-1. Upload the `pst-reservation-calculator` folder to the `/wp-content/plugins/` directory, or install the plugin through the **Plugins > Add New** screen in WordPress.
+1. Upload the `pstrc_reservation` folder to the `/wp-content/plugins/` directory, or install the plugin through the **Plugins > Add New** screen in WordPress.
 2. Activate the plugin through the **Plugins** screen.
 3. Go to **PST Reservation** in the admin menu to configure seasons, fees, VAT and the notification e-mail.
 4. Add the shortcode `[pstrc_reservation type="kamper"]` (or `przyczepa` / `samochod`) to any page or post where you want the calculator to appear.

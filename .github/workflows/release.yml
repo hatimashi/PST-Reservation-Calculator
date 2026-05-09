@@ -33,7 +33,7 @@ jobs:
       - name: Build WP.org zip
         run: |
           mkdir -p build
-          zip -r build/pst-reservation-calculator-wporg.zip . \
+          zip -r build/pstrc_reservation-wporg.zip . \
             --exclude "*.git*" \
             --exclude ".github/*" \
             --exclude "node_modules/*" \
@@ -44,12 +44,12 @@ jobs:
             --exclude "assets/*" \
             --exclude "build/*" \
             --exclude "CLAUDE.md" \
-            --exclude "includes/class-pst-updater.php"
+            --exclude "includes/class-pstrc-updater.php"
 
       - name: Build plugin zip
         run: |
           mkdir -p build
-          zip -r build/pst-reservation-calculator.zip . \
+          zip -r build/pstrc_reservation.zip . \
             --exclude "*.git*" \
             --exclude ".github/*" \
             --exclude "node_modules/*" \
@@ -64,8 +64,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/pst-reservation-calculator.zip
-            build/pst-reservation-calculator-wporg.zip
+            build/pstrc_reservation.zip
+            build/pstrc_reservation-wporg.zip
           name: "Release v${{ steps.version.outputs.VERSION }}"
           draft: false
           prerelease: false
@@ -83,7 +83,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: build/pst-reservation-calculator.zip
+          source: build/pstrc_reservation.zip
           target: public_html/updates/
       
       - name: Update version on server

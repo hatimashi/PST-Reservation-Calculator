@@ -3,12 +3,12 @@
 /**
  * Fired during plugin activation — creates the pricing table with sample data.
  *
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
-class PST_Reservation_Calculator_Activator
+class PSTRC_Reservation_Calculator_Activator
 {
 
     private $tables;

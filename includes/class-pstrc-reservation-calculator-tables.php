@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
-class PST_Reservation_Calculator_Tables {
+class PSTRC_Reservation_Calculator_Tables {
 
     public function get_table_name() {
         global $wpdb;

@@ -3,10 +3,10 @@
 /**
  * Fired when the plugin is uninstalled.
  *
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
  *
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
 if (! defined('WP_UNINSTALL_PLUGIN')) {
@@ -15,10 +15,10 @@ if (! defined('WP_UNINSTALL_PLUGIN')) {
 
 global $wpdb;
 
-$table = $wpdb->prefix . 'pstrc_reservation';
-$safe_table = esc_sql( $table );
+$pstrc_table = $wpdb->prefix . 'pstrc_reservation';
+$pstrc_safe_table = esc_sql( $table );
 $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    "DROP TABLE IF EXISTS `{$safe_table}`" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.SchemaChange
+    "DROP TABLE IF EXISTS `{$pstrc_safe_table}`" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.SchemaChange
 );
 
 delete_option('pstrc_reservation_calculator_email');

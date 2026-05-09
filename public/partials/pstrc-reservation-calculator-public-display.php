@@ -4,7 +4,7 @@
  * Public-facing view — calculator and reservation form.
  *
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 if (! defined('ABSPATH')) exit;
 ?>

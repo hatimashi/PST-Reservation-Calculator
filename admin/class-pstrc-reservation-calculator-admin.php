@@ -3,12 +3,12 @@
 /**
  * Admin-specific functionality of the plugin.
  *
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
-class PST_Reservation_Calculator_Admin
+class PSTRC_Reservation_Calculator_Admin
 {
 
     private $plugin_name;
@@ -20,13 +20,13 @@ class PST_Reservation_Calculator_Admin
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
 
-        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-tables.php';
-        $this->tables = new PST_Reservation_Calculator_Tables();
+        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pstrc-reservation-calculator-tables.php';
+        $this->tables = new PSTRC_Reservation_Calculator_Tables();
     }
 
     public function enqueue_styles()
     {
-        wp_enqueue_style('pstrc-admin',      plugin_dir_url(__FILE__) . 'css/pst-reservation-calculator-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style('pstrc-admin',      plugin_dir_url(__FILE__) . 'css/pstrc-reservation-calculator-admin.css', array(), $this->version, 'all');
         wp_enqueue_style('pstrc-datatables', plugin_dir_url(__FILE__) . 'css/jquery.dataTables.min.css',            array(), $this->version, 'all');
         wp_enqueue_style('pstrc-bootstrap',  plugin_dir_url(__FILE__) . 'css/bootstrap.min.css',                    array(), $this->version, 'all');
     }
@@ -37,7 +37,7 @@ class PST_Reservation_Calculator_Admin
         wp_enqueue_script('pstrc-notify',     plugin_dir_url(__FILE__) . 'js/jquery.notifyBar.js',      array('jquery'), $this->version, false);
         wp_enqueue_script('pstrc-validate',   plugin_dir_url(__FILE__) . 'js/validate.min.js',          array('jquery'), $this->version, true);
         wp_enqueue_script('pstrc-bootstrap',  plugin_dir_url(__FILE__) . 'js/bootstrap.min.js',         array('jquery'), $this->version, false);
-        wp_enqueue_script('pstrc-admin-js',   plugin_dir_url(__FILE__) . 'js/pst-reservation-calculator-admin.js', array('jquery'), $this->version, true);
+        wp_enqueue_script('pstrc-admin-js',   plugin_dir_url(__FILE__) . 'js/pstrc-reservation-calculator-admin.js', array('jquery'), $this->version, true);
         wp_localize_script('pstrc-admin-js', 'pstrc_admin', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('pstrc_admin_nonce'),
@@ -47,8 +47,8 @@ class PST_Reservation_Calculator_Admin
     public function register_menu()
     {
         add_menu_page(
-            __('PST Reservation Calculator', 'pst-reservation-calculator'),
-            __('PST Reservation', 'pst-reservation-calculator'),
+            __('PST Reservation Calculator', 'pstrc-reservation-calculator'),
+            __('PST Reservation', 'pstrc-reservation-calculator'),
             'manage_options',
             'pstrc-settings',
             array($this, 'render_settings_page'),
@@ -59,7 +59,7 @@ class PST_Reservation_Calculator_Admin
 
     public function render_settings_page()
     {
-        include_once PSTRC_CALCULATOR_DIR . 'admin/partials/pst-reservation-calculator-admin-display.php';
+        include_once PSTRC_CALCULATOR_DIR . 'admin/partials/pstrc-reservation-calculator-admin-display.php';
     }
 
     public function handle_ajax()
@@ -91,7 +91,7 @@ class PST_Reservation_Calculator_Admin
                     wp_send_json_error('Invalid data', 400);
                 }
 
-                $vehicle_types = PST_Reservation_Calculator_Tables::get_vehicle_types();
+                $vehicle_types = PSTRC_Reservation_Calculator_Tables::get_vehicle_types();
                 if (! array_key_exists($type, $vehicle_types)) {
                     wp_send_json_error('Invalid type', 400);
                 }
@@ -166,7 +166,7 @@ class PST_Reservation_Calculator_Admin
                     wp_send_json_error('Brakuje klucza lub nazwy pojazdu.', 400);
                 }
 
-                $vehicle_types = PST_Reservation_Calculator_Tables::get_vehicle_types();
+                $vehicle_types = PSTRC_Reservation_Calculator_Tables::get_vehicle_types();
                 if (array_key_exists($slug, $vehicle_types)) {
                     wp_send_json_error('Typ pojazdu o takim kluczu już istnieje.', 400);
                 }
@@ -212,7 +212,7 @@ class PST_Reservation_Calculator_Admin
                     wp_send_json_error('Invalid slug', 400);
                 }
 
-                $vehicle_types = PST_Reservation_Calculator_Tables::get_vehicle_types();
+                $vehicle_types = PSTRC_Reservation_Calculator_Tables::get_vehicle_types();
                 if (! array_key_exists($slug, $vehicle_types)) {
                     wp_send_json_error('Typ pojazdu nie istnieje.', 400);
                 }
@@ -238,7 +238,7 @@ class PST_Reservation_Calculator_Admin
                 update_option('pstrc_reservation_calculator_vat', $vat);
 
                 $raw_fees      = isset($_REQUEST['fees']) ? $_REQUEST['fees'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
-                $vehicle_types = PST_Reservation_Calculator_Tables::get_vehicle_types();
+                $vehicle_types = PSTRC_Reservation_Calculator_Tables::get_vehicle_types();
 
                 if (is_array($raw_fees)) {
                     $clean = array();

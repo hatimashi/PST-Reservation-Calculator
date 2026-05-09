@@ -1,5 +1,7 @@
 <?php
-class PST_Updater {
+if (! defined('ABSPATH')) exit;
+
+class PSTRC_Updater {
 
     private $plugin_slug;
     private $plugin_file;

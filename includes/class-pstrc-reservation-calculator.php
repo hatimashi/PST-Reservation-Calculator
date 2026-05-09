@@ -3,14 +3,14 @@
 /**
  * Core plugin class — wires together all hooks.
  *
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class PST_Reservation_Calculator {
+class PSTRC_Reservation_Calculator {
 
     protected $loader;
     protected $plugin_name;
@@ -20,7 +20,7 @@ class PST_Reservation_Calculator {
         $this->version     = defined( 'PSTRC_CALCULATOR_VERSION' )
             ? PSTRC_CALCULATOR_VERSION
             : '1.0.0';
-        $this->plugin_name = 'pst-reservation-calculator';
+        $this->plugin_name = 'pstrc_reservation';
 
         $this->load_dependencies();
         $this->define_admin_hooks();
@@ -28,15 +28,15 @@ class PST_Reservation_Calculator {
     }
 
     private function load_dependencies() {
-        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pst-reservation-calculator-loader.php';
-        require_once PSTRC_CALCULATOR_DIR . 'admin/class-pst-reservation-calculator-admin.php';
-        require_once PSTRC_CALCULATOR_DIR . 'public/class-pst-reservation-calculator-public.php';
+        require_once PSTRC_CALCULATOR_DIR . 'includes/class-pstrc-reservation-calculator-loader.php';
+        require_once PSTRC_CALCULATOR_DIR . 'admin/class-pstrc-reservation-calculator-admin.php';
+        require_once PSTRC_CALCULATOR_DIR . 'public/class-pstrc-reservation-calculator-public.php';
 
-        $this->loader = new PST_Reservation_Calculator_Loader();
+        $this->loader = new PSTRC_Reservation_Calculator_Loader();
     }
 
     private function define_admin_hooks() {
-        $admin = new PST_Reservation_Calculator_Admin( $this->plugin_name, $this->version );
+        $admin = new PSTRC_Reservation_Calculator_Admin( $this->plugin_name, $this->version );
 
         $this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $admin, 'enqueue_scripts' );
@@ -45,7 +45,7 @@ class PST_Reservation_Calculator {
     }
 
     private function define_public_hooks() {
-        $public = new PST_Reservation_Calculator_Public( $this->plugin_name, $this->version );
+        $public = new PSTRC_Reservation_Calculator_Public( $this->plugin_name, $this->version );
 
         $this->loader->add_action( 'wp_enqueue_scripts',              $public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts',              $public, 'enqueue_scripts' );

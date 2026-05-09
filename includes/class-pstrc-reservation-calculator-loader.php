@@ -3,14 +3,14 @@
 /**
  * Registers all actions and filters for the plugin.
  *
- * @link    https://primestep.pl/pst-reservation-calculator
+ * @link    https://primestep.pl/pstrc_reservation
  * @since   1.0.0
- * @package PST_Reservation_Calculator
+ * @package PSTRC_Reservation_Calculator
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class PST_Reservation_Calculator_Loader {
+class PSTRC_Reservation_Calculator_Loader {
 
     protected $actions = array();
     protected $filters = array();
