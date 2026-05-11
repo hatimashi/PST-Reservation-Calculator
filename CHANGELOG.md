@@ -1,3 +1,6 @@
+## 1.2.4
+- update bootstrap.min.js to v5.2.3
+  
 ## 1.2.3
 - corecct prefixex in whole project from pst to pstrc(wordpress.org doc)
 
