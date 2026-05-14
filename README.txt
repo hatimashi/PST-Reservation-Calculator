@@ -100,6 +100,7 @@ PHP 7.4 or higher.
 
 = 1.2.5 =
 * Action updated by pushing repo to svn of wordpress.org when Release is publish
+* Fixed BUILD DIR
 
 = 1.2.4 =
 * update bootstrap.min.js to v5.2.3
