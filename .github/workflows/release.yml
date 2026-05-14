@@ -56,6 +56,16 @@ jobs:
             --exclude "build/*" \
             --exclude "CLAUDE.md" \
             --exclude "includes/class-pstrc-updater.php"
+      
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: false
+          source-dir: build/wporg-tmp  # katalog z już przygotowaną paczką bez updatera
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: primestep-vehicle-reservation-calculator
 
       - name: Build plugin zip
         run: |
