@@ -4,7 +4,7 @@ Tags: rental, price calculator, vehicle rental, reservation, booking
 Requires at least: 5.5
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,9 @@ PHP 7.4 or higher.
 7. Reservation popup — contact form prefilled with dates and calculated price.
 
 == Changelog ==
+
+= 1.2.5 =
+* Action updated by pushing repo to svn of wordpress.org when Release is publish
 
 = 1.2.4 =
 * update bootstrap.min.js to v5.2.3
