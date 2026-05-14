@@ -64,7 +64,7 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: primestep-vehicle-reservation-calculator
+          SLUG: pstrc-reservation-calculator
           BUILD_DIR: build/wporg-tmp
 
       - name: Build plugin zip
